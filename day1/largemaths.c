@@ -1,26 +1,24 @@
-#include <stdio.h>
-#include <string.h>
-#define MAX_STR 10000
+#include "largemaths.h"
+#include  "stdio.h"
+#include  "string.h"
 
 void reverse(char[], int);
 void multiply(char[], char, int, char[], int);
 int add(char m[], char sum[], int l);
 
-int main() {
+char m[1000];
+int m_len;
 
-	int la, lb, i, j, len_m = 0, lx;
-	char a[100], b[100], sum[100][MAX_STR], m[MAX_STR], temp;
-	
-	printf("Enter first number: \n");
-	scanf("%s",a);
+char* large_multiply(char x[], char y[]) {
+	char a[100], b[100], sum[100][1000], temp;
+	int la, lb, i, j, len_m = 0;
+	strcpy(a,x);
+	strcpy(b,y);
 	la = strlen(a);
-	printf("Enter second number: \n");
-	scanf("%s",b);
 	lb = strlen(b);
-	
-	for(i = 0; i<MAX_STR; i++)
+	for(i = 0; i<1000; i++)
 		m[i] = '0';
-	
+
 	if(la > lb) {
 		temp = lb;
 		reverse(b,lb);
@@ -39,15 +37,12 @@ int main() {
 	}
 
 	//adding up all the sums for the different steps
-	for(i = 0; i < temp; i++) 
+	for(i = 0; i < temp; i++)
 		len_m = add(m,sum[i],strlen(sum[i]));
-	
-	printf("Multiplied value is: \n");
-	reverse(m,len_m);
-	for(i = 0; i < len_m; i++)
-		printf("%c",m[i]);
-	printf("\n");
-	return 0;
+	reverse(m, len_m);
+	m[len_m] = '\0';
+	m_len = len_m;
+	return m;
 }
 
 //helper functions
@@ -93,8 +88,6 @@ void multiply(char a[], char x, int la, char sum[], int i) {
 	reverse(sum,len);
 
 }
-
-
 
 int add(char m[], char sum[], int l) {
 	int i = 0, j = 0, d1, d2, s = 0, ca = 0, d = 0, len;
