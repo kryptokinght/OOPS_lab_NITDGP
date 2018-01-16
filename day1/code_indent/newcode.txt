@@ -1,0 +1,25 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+int main() 
+{
+  printf("some text\n");
+  printf("some text\n");
+  printf("some text\n");
+  printf("some text\n");
+  if(1==1) {
+    printf("OK\n");
+  }
+  else {
+    printf("Else block\n");
+  }
+  
+  for(i = 0; i<10; i++) {
+    if(2==2) {
+      printf("Nice\n");
+      exit(0);
+    }
+  }
+  printf("This is the end\n");
+  return 0;
+} 
