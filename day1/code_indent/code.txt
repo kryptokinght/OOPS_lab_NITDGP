@@ -11,9 +11,7 @@ printf("Else block\n");
 }
 
 for(i = 0; i<10; i++) {
-if(2==2) {
-printf("Nice\n");
-exit(0);
+if(2==2) {printf("Nice\n");exit(0);
 }
 }
 printf("This is the end\n");

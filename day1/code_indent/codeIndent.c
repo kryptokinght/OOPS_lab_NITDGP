@@ -43,7 +43,7 @@ int main() {
       } 
       else if(c == '}')
         counter--;
-
+    	
       if(forw == '}' && c != '\n' && c != ' ') { //
       	printf("exec c=%c forw=%c prev=%c\n",c,forw,prev);
       	fprintf(fp,"\n");
