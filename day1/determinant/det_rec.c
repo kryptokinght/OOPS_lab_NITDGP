@@ -1,17 +1,27 @@
-#include "stdio.h"
-#include "math.h"
+#include <stdio.h>
+#include <math.h>
 
-#define N 2  // n*n matrix
+int N = 2;  // n*n matrix
 
 int det(int[], int);
 
 int main() {
+  printf("ENter the order of matrix:\n");
+  scanf("%d", &N);
   int a[N*N], i = 0;
   //input elements of a
   printf("Enter elements of %d*%d matrix\n",N,N);
-  for(i = 0; i < N*N; i++)
+  for(i = 0; i < N*N; i++) {
+    printf("%d ",i+1);
     scanf("%d",&a[i]);
-    
+  }
+  //displaying the matrix
+  for(i = 0; i < N*N; i++) {
+    if(i % N == 0)
+      printf("\n");
+    printf("%d ", a[i]);
+  }
+  printf("\n");  
   int ans = det(a,N*N);
   printf("The determinant is %d\n",ans);
   return 0;

@@ -2,7 +2,7 @@
 
 int main() {
   FILE *f, *fp;
-  char c, forw, prev;
+  char c, forw, prev = '';
   int counter = 0, i;
   int for_LOOP = 0;
   f = fopen("code.txt","r");

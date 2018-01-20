@@ -30,7 +30,7 @@ int main() {
 			break;
 		case 3:
 			input(&x1, &x2, &y, &steps);
-			plot(&sin, steps, x1, x2, y);
+			plot(&tan, steps, x1, x2, y);
 			break;
 		case 4:
 			input(&x1, &x2, &y, &steps);
@@ -48,8 +48,9 @@ int main() {
 }
 
 void plot(double (*func)(double), double step, double x1, double x2, double y) {
-	double i, j, val, scale;
-	scale = 74/y;
+	double i, j, val, scale, forw;
+	int dec = 0;
+	scale = 70/y;
 	cout<<"SCALE:"<<scale<<endl;
 	int stars, count = 0;
 	for(i = x1; i < x2; i = i + step) {
@@ -57,24 +58,34 @@ void plot(double (*func)(double), double step, double x1, double x2, double y) {
     	if(count%40 == 0)
       		cin.get();
 		val = func(i);
+		forw = func(i + step);
 		if(val < 0) {
 			if(val < -y)
-				stars = 74;
+				stars = 70;
 			else
 				stars = -int(val*scale);
-			cout<<setw(76-stars);
+			cout<<setw(72-stars);
+			if((forw - val) > 0 && dec == 1) {
+				dec = 0;
+				cout<<"-1";
+			}
 			for(j = 0; j < stars; j++)
 				cout<<"*";	
 			cout<<"|";
 		}
 		else {
 			if(val > y)
-				stars = 74;
+				stars = 70;
 			else
 				stars = int(val*scale);
-			cout<<setw(76)<<"|";
+			cout<<setw(72)<<"|";
 			for(j = 0; j < stars; j++)
-				cout<<"*";	
+				cout<<"*";
+			if((forw - val) < 0 && dec == 0) {
+				dec = 1;
+				cout<<"1";
+			}
+
 		}
 		cout<<endl;		
 	}
