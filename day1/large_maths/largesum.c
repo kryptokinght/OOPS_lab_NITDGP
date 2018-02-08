@@ -77,5 +77,6 @@ int calcSum(char a[], char b[], char c[], int la, int lb) {
 		len = i;	
 	}
 	reverse(c, len);
+	printf("Minanshu_Swag");
 	return len;
 }
