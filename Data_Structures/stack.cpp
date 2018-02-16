@@ -33,7 +33,11 @@ void push(int data) {
 
 int pop() {
   Stack* temp = new Stack();
-  
+  temp = head;
+  int data = temp->data;
+  head = head->next;
+  free(temp);
+  return data;
 }
 
 int main() {
@@ -42,6 +46,8 @@ int main() {
   push(8);
   push(7);
   push(6);
-  cout<<"thank you"<<endl;
+  int x = pop();
+  cout<<"Popped: "<<x<<endl;
+  display();
   return 0;
 }
