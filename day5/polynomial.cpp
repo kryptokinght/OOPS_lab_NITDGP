@@ -1,171 +1,164 @@
-//polynomial class, addition, subtraction, multiplication 
-//matrix class, addition
-//tree class
-
 #include <bits/stdc++.h>
+
 using namespace std;
 
-struct node {
-	int data;
-	int factor;
-	node *next;
+
+typedef struct PolynomialNode {
+    int coeff, index;
+    struct PolynomialNode* next;
+} Term;
+
+
+class Polynomial {
+
+    Term* start;
+    Term* createNewTerm(int, int);
+
+public:
+
+    Polynomial() {
+        start = NULL;
+    }
+
+    Term* getPolynomial();
+    void addNewterm(int, int);
+    void printPolynomial();
 };
 
-class Poly {
-	node *head = NULL;
-	int length;
-	public :
-		Stack() {
-			length = 0;
-		}
-		void push();
-		int pop();
-		void display();
-		int getLength() {
-			return length;
-		}
-		bool isEmpty() {
-			if(head == NULL)
-				return true;
-			return false;
-		}
-		void specialDelete(int x);
-
-};
-
-void Stack::push() {
-	length++;
-	int d;
-	node *temp = new node();
-	cout<<"Enter data for node"<<endl;
-	cin>>d;
-	temp->data = d;
-	temp->next = NULL;
-	if(head == NULL) {
-		head = temp;
-		top = temp;
-		return;
-	}
-	top->next = temp;
-	temp->next = NULL;
-	top = temp;
+Term* Polynomial::createNewTerm(int c, int i) {
+    Term* newTerm = new Term;
+    if (newTerm) {
+        newTerm->coeff = c;
+        newTerm->index = i;
+        newTerm->next = NULL;
+    }
+    return newTerm;
 }
 
-void Stack::display() {
-	node *temp = head;
-	if(head == NULL)
-		cout<<"Stack is empty"<<endl;
-	else {
-		cout<<"Displaying stack"<<endl;
-		while(temp != NULL) {
-			cout<<temp->data<<" ";
-			temp = temp->next;
-		}
-		cout<<endl;	
-	}
+Term* Polynomial::getPolynomial() {
+    return start;
 }
 
-int Stack::pop() {
-	if(top == NULL) {
-		cout<<"Cannot POP. Returning -1!!"<<endl;
-		return -1;
-	}
-	node *temp = head;
-	while( temp->next != NULL && temp->next != top) {
-		temp = temp->next;
-	}
-	int d = top->data;
-	if(length == 1) {
-		top = NULL;
-		head = NULL;	
-	}
-	else {
-		top = temp;
-		top->next = NULL;
-	}
-	length--;
-	return d;
+void Polynomial::addNewterm(int c, int i) {
+    Term* newTerm = createNewTerm(c, i);
+    if (!newTerm) {
+        cout << "A new term could not be added!" << endl;
+        return;
+    }
+
+    // The polynomial is empty
+    if (!start) {
+        start = newTerm;
+        return;
+    }
+
+    // New term will be added at the beginning of the polynomial
+    if (i > start->index) {
+        newTerm->next = start;
+        start = newTerm;
+    } else {
+        Term* cur = start;
+        Term* prev = NULL;
+        bool mid = true;
+        while (i < cur->index) {
+            prev = cur;
+            if (cur->next)
+                cur = cur->next;
+            // New term will be added at the end of the polynomial
+            else {
+                cur->next = newTerm;
+                mid = false;
+                break;
+            }
+        }
+        // New term will be added in the middle of the polynomial
+        if (mid) {
+            prev->next = newTerm;
+            newTerm->next = cur;
+        }
+    }
 }
 
-void Stack::specialDelete(int x) {
-	node *temp = head, *prev = NULL, *temp2 = head;
-	int flag = 0, first = 0;
-	if(temp == NULL)
-		cout<<"Cannot Delete! Empty Stack!";
-	else {
-		if(temp->data == x) {
-			flag = 1;
-			first = 1;
-		}
-		while(temp->next != NULL && flag != 1) {
-			prev = temp;
-			temp = temp->next;
-			if(temp->data == x) {
-				flag = 1;
-				break;
-			}
-		}
-		if(flag == 0) {
-			cout<<"Element not found!!"<<endl;
-			return;
-		}
-		else if(first)
-			head = temp->next;
-		else {
-			/*node *temp3;
-			while(temp2->next != temp->next) {
-				temp3 = temp2;
-				delete temp3;
-
-			}*/
-			head = temp->next;
-		}
-		delete temp;
-		cout<<"Successfull"<<endl;
-	}
+void Polynomial::printPolynomial() {
+    Term* temp = start;
+    while (temp) {
+        if (temp->index == 0)
+            cout << temp->coeff;
+        else if (temp->index == 1 && temp->coeff == 1)
+            cout << "x";
+        else if (temp->index == 1 && temp->coeff != 1)
+            cout << temp->coeff << "x";
+        else if (temp->index != 1 && temp->coeff == 1)
+            cout << "x^" << temp->index;
+        else
+            cout << temp->coeff << "x^" << temp->index;
+        temp = temp->next;
+        if (temp)
+            cout << " + ";
+    }
+    cout << endl;
 }
 
-int main()
-{	
-	Stack s1;
-	int ch, c = 1;
-	while(c) {
-		cout<<"1. PUSH"<<endl;
-		cout<<"2. POP"<<endl;
-		cout<<"3. DISPLAY"<<endl;
-		cout<<"4. isEmpty"<<endl;
-		cout<<"5. LENGTH"<<endl;
-		cout<<"6. Special Delete"<<endl;
-		cout<<"Enter choice: ";
-		cin>>ch;
-		cout<<endl;
-		switch(ch) {
-			case 1:
-			s1.push();
-			break;	
-			case 2:
-			cout<<"Popped element: "<<s1.pop()<<endl;
-			break;
-			case 3:
-			s1.display();
-			break;
-			case 4:
-			cout<<"isEmpty: "<<s1.isEmpty()<<endl;
-			break;
-			case 5:
-			cout<<"Length of stack: "<<s1.getLength()<<endl;
-			break;
-			case 6:
-			cout<<"Enter element for special delete: "<<endl;
-			int k;
-			cin>>k;
-			s1.specialDelete(k);
-			break;
-			default: cout<<"Wrong Entry!!"<<endl;
-		}
-		cout<<"Do you want to continue(1/0)"<<endl;
-		cin>>c;
-	}
-	cout<<"THANKS....."<<endl;
-	return 0;
-} 
+
+Polynomial addPolynomial(Polynomial p1, Polynomial p2) {
+    Term* t1 = p1.getPolynomial();
+    Term* t2 = p2.getPolynomial();
+    Polynomial res;
+    while (t1 && t2) {
+        if (t1->index == t2->index) {
+            res.addNewterm(t1->coeff + t2->coeff, t1->index);
+            t1 = t1->next;
+            t2 = t2->next;
+        } else if (t1->index > t2->index) {
+            res.addNewterm(t1->coeff, t1->index);
+            t1 = t1->next;
+        } else {
+            res.addNewterm(t2->coeff, t2->index);
+            t2 = t2->next;
+        }
+    }
+    while (t1) {
+        res.addNewterm(t1->coeff, t1->index);
+        t1 = t1->next;
+    }
+    while (t2) {
+        res.addNewterm(t2->coeff, t2->index);
+        t2 = t2->next;
+    }
+    return res;
+}
+
+
+int main() {
+
+    int ch, c, i, t;
+
+    cout << "Enter the number of terms for the first polynomial: ";
+    cin >> t;
+    Polynomial p1;
+    while(t--) {
+        cout << "Enter coefficient and index of the term: ";
+        cin >> c >> i;
+        p1.addNewterm(c, i);
+    };
+    cout << endl << "Polynomial 1: ";
+    p1.printPolynomial();
+    cout << endl;
+
+    cout << "Enter the number of terms for the second polynomial: ";
+    cin >> t;
+    Polynomial p2;
+    while(t--) {
+        cout << "Enter coefficient and index of the term: ";
+        cin >> c >> i;
+        p2.addNewterm(c, i);
+    };
+    cout << endl << "Polynomial 2: ";
+    p2.printPolynomial();
+    cout << endl;
+
+    Polynomial res = addPolynomial(p1, p2);
+    cout << "Addition: ";
+    res.printPolynomial();
+    return 0;
+}

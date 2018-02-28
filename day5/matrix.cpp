@@ -6,20 +6,20 @@ class Matrix {
 
     int rows;
     int cols;
-    int** matrix;
+    int **m;
 
 public:
 	Matrix() {
 		rows = 0;
 		cols = 0;
-		matrix = NULL;
+		m = NULL;
 	}
     Matrix(int r, int c) {
         rows = r;
         cols = c;
-        matrix = new int*[rows];
+        m = new int*[rows];
         for (int i = 0 ; i < rows ; i++) {
-            matrix[i] = new int[cols];
+            m[i] = new int[cols];
         }
     }
     ~Matrix() {
@@ -27,7 +27,7 @@ public:
     }
     int getRow();
     int getCol();
-    int** getMatrix();
+    int **getMatrix();
     void setMatrix(int**);
     void display();
 };
@@ -41,13 +41,13 @@ int Matrix::getCol() {
 }
 
 int** Matrix::getMatrix() {
-    return matrix;
+    return m;
 }
 
-void Matrix::setMatrix(int** m) {
+void Matrix::setMatrix(int **m) {
     for (int i = 0 ; i < rows ; ++i) {
         for (int j = 0 ; j < cols ; ++j) {
-            matrix[i][j] = m[i][j];
+            m[i][j] = m[i][j];
         }
     }
 }
@@ -56,14 +56,14 @@ void Matrix::setMatrix(int** m) {
 	cout<<"Enter elements for the matrix:"<<endl;
 	for(int i = 0; i < rows; i++) {
 		for(int j = 0; j < cols; j++)
-			cin>>matrix[i][j];
+			cin>>m[i][j];
 	}
 }*/
 
 void Matrix::display() {
     for (int i = 0 ; i < rows ; ++i) {
         for (int j = 0 ; j < cols ; ++j) {
-            cout << matrix[i][j] << " ";
+            cout << m[i][j] << " ";
         }
         cout << endl;
     }
@@ -78,7 +78,7 @@ Matrix addMatrices(Matrix mat1, Matrix mat2) {
     int** m1 = mat1.getMatrix();
     int** m2 = mat2.getMatrix();
 
-    Matrix res(r1, c1); //resultant matrix
+    Matrix res(r1, c1); //resultant m
 
     if (r1 != r2 || c1 != c2) {
         cout << "Matrices of different sizes cannot be added!" << endl;
@@ -163,7 +163,7 @@ Matrix mulMatrices(Matrix mat1, Matrix mat2) {
 int main() {
     
     int r1, c1;
-    cout << "Enter rows and columns for first matrix: ";
+    cout << "Enter rows and columns for first m: ";
     cin >> r1 >> c1;
 
     Matrix m1(r1, c1);
@@ -180,12 +180,12 @@ int main() {
     }
     delete[] m;
 
-    cout << "First matrix:" << endl;
+    cout << "First m:" << endl;
     m1.display();
     cout << endl;
     
     int r2, c2;
-    cout << "Enter the number of rows and columns of second matrix: ";
+    cout << "Enter the number of rows and columns of second m: ";
     cin >> r2 >> c2;
 
     Matrix m2(r2, c2);
@@ -202,7 +202,7 @@ int main() {
     }
     delete[] m;
 
-    cout << "Second matrix:" << endl;
+    cout << "Second m:" << endl;
     m2.display();
 
     int ch;
