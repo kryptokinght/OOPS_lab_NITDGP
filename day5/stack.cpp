@@ -41,7 +41,7 @@ class Stack {
 	Node *head;
 	Node *top;
 	int length;
-public :
+public:
 	Stack() {
 		length = 0;
 		head = NULL;
