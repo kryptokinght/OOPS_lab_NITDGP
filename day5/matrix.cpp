@@ -12,7 +12,8 @@ public:
 	Matrix(int r = 0, int c = 0) {
 		row = r;
 		col = c;
-		
+		int *a = new int(r);
+
 	}
 	void insert() {
 		int i = 0, j = 0;

@@ -10,46 +10,44 @@ using namespace std;
 class Node {
 public:
 	int data;
-	node *link;
-	node() {
+	Node *link;
+	Node() {
 		data = 0;
 		link = NULL;
 	}
-	node(int d) {
+	Node(int d) {
 		data = d;
 		link = NULL;
 	}
-	node(node *l) {
-		d = 0;
+	Node(Node *l) {
+		data = 0;
 		link = l;
 	}
-	node(int d, node *l) {
+	Node(int d, Node *l) {
 		data = d;
 		link = l;
 	}
-	~node() {
-		cout<<"Object Destroyed!!"<<endl;
+	~Node() {
+	  cout<<" Object Destroyed with value: "<<this->data<<endl;
 	}
-}
-struct node {
-	int data;
-	node *next;
+	 
 };
 
-class Stack {
-	//node *head = NULL;
-	//node *top = NULL;
-	node head;
-	node top;
-	
+void destructNode(Node* ptr) {
+  delete ptr; //calls the destructor for the obj
+}
+
+class Stack {	
+	Node *head;
+	Node *top;
 	int length;
 public :
 	Stack() {
 		length = 0;
-		head(NULL);
-		top(NULL);
+		head = NULL;
+		top = NULL;
 	}
-	Stack(node h) {
+	Stack(Node *h) {
 		length = 0;
 		head = h;
 	}
@@ -75,75 +73,70 @@ bool Stack::isEmpty() {
 void Stack::push() {
 	length++;
 	int d;
-	//node *temp = new node();
 	cout<<"Enter data for node"<<endl;
 	cin>>d;
-	node n(d, NULL);
-	//temp->data = d;
-	//temp->next = NULL;
+	Node *temp = new Node(d, NULL);
 	if(head == NULL) {
-		head = n;
-		top = n;
+		head = temp;
+		top = temp;
 		return;
 	}
-	top.next = n;
-	n.next = NULL;
-	top = n;
+	top->link = temp;
+	temp->link = NULL;
+	top = temp;
 }
 
 void Stack::display() {
-	node *temp = head;
+	Node *temp = head;
 	if(head == NULL)
 		cout<<"Stack is empty"<<endl;
 	else {
 		cout<<"Displaying stack"<<endl;
 		while(temp != NULL) {
-			//cout<<temp->data<<" ";
-			cout<<temp.data<<endl;
-			//temp = temp->next;
-			temp = temp.link;
+			cout<<temp->data<<" ";
+			temp = temp->link;
 		}
 		cout<<endl;	
 	}
 }
-/*
+
 int Stack::pop() {
 	if(top == NULL) {
-		cout<<"Cannot POP. Returning -1!!"<<endl;
+		cout<<"Cannot POP. Empty Stack!!"<<endl;
 		return -1;
 	}
-	node *temp = head;
-	while( temp->next != NULL && temp->next != top) {
-		temp = temp->next;
+	Node *temp = head;
+	while( temp->link != NULL && temp->link != top) {
+		temp = temp->link;
 	}
 	cout<<temp->data<<endl;	
 	int d = top->data;
-	delete top;
+	destructNode(top);
 	if(length == 1) {
 		top = NULL;
 		head = NULL;	
 	}
 	else {
 		top = temp;
-		top->next = NULL;
+		top->link = NULL;
 	}
 	length--;
 	return d;
-}*/
-/*
+}
+
 void Stack::specialDelete(int x) {
-	node *temp = head, *prev = NULL, *temp2 = head;
+	Node *temp = head, *prev = NULL, *temp2 = head;
 	int flag = 0, first = 0;
 	if(temp == NULL)
 		cout<<"Cannot Delete! Empty Stack!";
 	else {
-		if(temp->data == x) {
+		if(temp->data == x) {  //if first element in the stack is x
 			flag = 1;
 			first = 1;
 		}
-		while(temp->next != NULL && flag != 1) {
+		while(temp->link != NULL && flag != 1) { //when first element is not x
 			prev = temp;
-			temp = temp->next;
+			temp = temp->link;
 			if(temp->data == x) {
 				flag = 1;
 				break;
@@ -154,19 +147,19 @@ void Stack::specialDelete(int x) {
 			return;
 		}
 		else if(first)
-			head = temp->next;
+			head = temp->link;
 		else {
-			head = temp->next;
+			head = temp->link;
 		}
-		delete temp;
+		destructNode(temp);
 		cout<<"Successfull"<<endl;
 	}
-}*/
+}
 
 int main()
 {	
 	Stack s1;
-	int ch, c = 1;
+	int ch, c = 1, p =-1, k = -1;
 	while(c) {
 		cout<<"1. PUSH"<<endl;
 		cout<<"2. POP"<<endl;
@@ -180,14 +173,15 @@ int main()
 			s1.push();
 			break;	
 			case 2:
-			cout<<"Popped element: "<<s1.pop()<<endl;
+			p = s1.pop();
+			if(p != -1)
+				cout<<"Popped element: "<<p<<endl;
 			break;
 			case 3:
 			s1.display();
 			break;
 			case 4:
 			cout<<"Enter element for special delete: "<<endl;
-			int k;
 			cin>>k;
 			s1.specialDelete(k);
 			break;
